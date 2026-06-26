@@ -83,74 +83,7 @@
             opacity: 0.8;
         }
 
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            width: var(--touch-target);
-            height: var(--touch-target);
-            background: var(--card-bg);
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 200;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            will-change: transform;
-        }
-
-        .menu-toggle span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 1px;
-            transition: all 0.3s;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translateY(7px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-7px);
-        }
-
-        /* Navigation */
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 0.5rem;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-
-        .nav a {
-            color: var(--accent);
-            text-decoration: none;
-            padding: 0.5rem 0.75rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            min-height: var(--touch-target);
-            display: flex;
-            align-items: center;
-        }
-
-        .nav a:hover, .nav a:active {
-            background: var(--accent);
-            color: var(--bg);
-        }
+        /* Mobile Menu Toggle — removed */
 
         /* Main Content */
         .content {
@@ -162,7 +95,6 @@
         /* Section */
         .section {
             margin-bottom: 2rem;
-            scroll-margin-top: 8rem;
         }
 
         .section-title {
@@ -418,7 +350,7 @@
                 background: #f9f9f9;
                 border: 1px solid #ddd;
             }
-            .nav, .menu-toggle, .back-to-top {
+            .back-to-top {
                 display: none;
             }
         }
@@ -465,7 +397,6 @@
 
             .header {
                 padding: 1.25rem 1rem;
-                padding-top: calc(1.25rem + var(--touch-target));
             }
 
             .header h1 {
@@ -474,41 +405,6 @@
 
             .header .subtitle {
                 font-size: 0.85rem;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .section {
-                scroll-margin-top: 6rem;
-            }
-
-            .nav {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                flex-direction: column;
-                padding: calc(var(--touch-target) + 1rem) 1rem 1rem;
-                background: #16213e;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease-out;
-                z-index: 200;
-            }
-
-            .nav.active {
-                max-height: 100vh;
-                overflow-y: auto;
-            }
-
-            .nav a {
-                font-size: 1.1rem;
-                padding: 0.75rem 1rem;
-                border-radius: 8px;
-                min-height: 48px;
             }
 
             .content {
@@ -609,28 +505,10 @@
     </style>
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    
     <header class="header">
         <h1>📚 概率论与数理统计 考前速记</h1>
         <p class="subtitle">南京师范大学 | 真题考点整理 | 公式速查手册</p>
     </header>
-
-    <nav class="nav" id="nav">
-        <a href="#sec1">概率基础</a>
-        <a href="#sec2">随机变量</a>
-        <a href="#sec3">二维向量</a>
-        <a href="#sec4">数字特征</a>
-        <a href="#sec5">极限定理</a>
-        <a href="#sec6">抽样分布</a>
-        <a href="#sec7">参数估计</a>
-        <a href="#sec8">假设检验</a>
-        <a href="#sec9">真题考点</a>
-    </nav>
 
     <main class="content">
         <!-- Section 1: 概率基础 -->
@@ -1187,22 +1065,7 @@
     <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
 
     <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const nav = document.getElementById('nav');
         const backToTop = document.getElementById('backToTop');
-        const navLinks = nav.querySelectorAll('a');
-
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            nav.classList.toggle('active');
-        });
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                nav.classList.remove('active');
-            });
-        });
 
         let ticking = false;
         window.addEventListener('scroll', () => {
