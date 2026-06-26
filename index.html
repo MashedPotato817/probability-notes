@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>概率论与数理统计 考前速记</title>
+    
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+    
+    <!-- KaTeX CSS (faster alternative) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --fg: #eaeaea;
+            --accent: #00d4ff;
+            --accent2: #ff6b6b;
+            --card-bg: #16213e;
+            --border: #0f3460;
+            --highlight: #e94560;
+            --success: #4ecca3;
+            --warning: #ffd93d;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --touch-target: 44px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.8;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #0f3460 100%);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px var(--accent);
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--fg);
+            opacity: 0.8;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: var(--touch-target);
+            height: var(--touch-target);
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 200;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: all 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-7px);
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0.5rem;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            min-height: var(--touch-target);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav a:hover, .nav a:active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* Main Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            padding: 1rem;
+            background: linear-gradient(90deg, var(--card-bg) 0%, transparent 100%);
+            border-left: 4px solid var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--warning);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #0d1b2a;
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .formula-box .formula {
+            font-size: 1.1rem;
+            color: var(--success);
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+        }
+
+        th {
+            background: var(--border);
+            color: var(--accent);
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid var(--accent2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-box::before {
+            content: '⚠️ 注意';
+            display: block;
+            font-weight: bold;
+            color: var(--accent2);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background: rgba(78, 204, 163, 0.2);
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tip-box::before {
+            content: '💡 提示';
+            display: block;
+            font-weight: bold;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Key Point */
+        .key-point {
+            background: linear-gradient(90deg, var(--highlight), transparent);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* List */
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        /* Code */
+        code {
+            background: #0d1b2a;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            counter-increment: step;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .step::before {
+            content: counter(step);
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Mnemonic */
+        .mnemonic {
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .mnemonic-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 3px solid var(--accent);
+            margin-top: 2rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .header {
+                background: #f0f0f0;
+                border-bottom: 2px solid #333;
+            }
+            .card, .formula-box {
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+            }
+            .nav, .menu-toggle, .back-to-top {
+                display: none;
+            }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 1rem;
+            width: var(--touch-target);
+            height: var(--touch-target);
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 150;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover, .back-to-top:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
+
+            .header {
+                padding: 1.25rem 1rem;
+                padding-top: calc(1.25rem + var(--touch-target));
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                padding: calc(var(--touch-target) + 1rem) 1rem 1rem;
+                background: rgba(22, 33, 62, 0.98);
+                backdrop-filter: blur(10px);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+            }
+
+            .nav.active {
+                max-height: 80vh;
+            }
+
+            .nav a {
+                font-size: 1.1rem;
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+                min-height: 48px;
+            }
+
+            .content {
+                padding: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                padding: 0.75rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .formula-box {
+                padding: 0.75rem;
+            }
+
+            .formula-box .formula {
+                font-size: 1rem;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.5rem 0.4rem;
+                word-break: break-word;
+            }
+
+            .step {
+                padding-left: 2rem;
+            }
+
+            .step::before {
+                left: 0.25rem;
+                width: 1.75rem;
+                height: 1.75rem;
+                font-size: 0.9rem;
+            }
+
+            .back-to-top {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            .content {
+                padding: 0.5rem;
+            }
+
+            .card {
+                padding: 0.85rem;
+                border-radius: 10px;
+            }
+
+            .section-title {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <header class="header">
+        <h1>📚 概率论与数理统计 考前速记</h1>
+        <p class="subtitle">南京师范大学 | 真题考点整理 | 公式速查手册</p>
+    </header>
+
+    <nav class="nav" id="nav">
+        <a href="#sec1">概率基础</a>
+        <a href="#sec2">随机变量</a>
+        <a href="#sec3">二维向量</a>
+        <a href="#sec4">数字特征</a>
+        <a href="#sec5">极限定理</a>
+        <a href="#sec6">抽样分布</a>
+        <a href="#sec7">参数估计</a>
+        <a href="#sec8">假设检验</a>
+        <a href="#sec9">真题考点</a>
+    </nav>
+
+    <main class="content">
+        <!-- Section 1: 概率基础 -->
+        <section id="sec1" class="section">
+            <h2 class="section-title"><span class="icon">🎲</span> 一、概率基础</h2>
+            
+            <div class="card">
+                <h3 class="card-title">1.1 核心公式</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>公式名称</th><th>表达式</th><th>适用条件</th></tr>
+                        <tr><td>加法公式</td><td>$P(A \cup B) = P(A) + P(B) - P(AB)$</td><td>任意两事件</td></tr>
+                        <tr><td>条件概率</td><td>$P(A|B) = \frac{P(AB)}{P(B)}$</td><td>$P(B) > 0$</td></tr>
+                        <tr><td>乘法公式</td><td>$P(AB) = P(A) \cdot P(B|A)$</td><td>链式法则</td></tr>
+                        <tr><td>全概率公式</td><td>$P(A) = \sum_{i} P(B_i) P(A|B_i)$</td><td>$B_i$ 为完备划分</td></tr>
+                        <tr><td>Bayes公式</td><td>$P(B_i|A) = \frac{P(B_i)P(A|B_i)}{\sum_j P(B_j)P(A|B_j)}$</td><td>逆概率</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">1.2 事件关系</h3>
+                <div class="grid-2">
+                    <div class="formula-box">
+                        <div class="formula"><strong>对立事件</strong></div>
+                        <p style="text-align:center">$A \cup B = \Omega$</p>
+                        <p style="text-align:center">$AB = \emptyset$</p>
+                        <p style="text-align:center">$P(A) = 1 - P(B)$</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>互不相容</strong></div>
+                        <p style="text-align:center">$AB = \emptyset \Rightarrow P(AB) = 0$</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>独立</strong></div>
+                        <p style="text-align:center">$P(AB) = P(A) \cdot P(B)$</p>
+                    </div>
+                </div>
+                <div class="warning-box">
+                    <span class="key-point">互不相容 ≠ 独立</span>：若 $P(A)>0, P(B)>0$，互斥时 $P(AB)=0 < P(A)P(B)$，反而<strong>不独立</strong>！
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">1.3 古典概型</h3>
+                <div class="formula-box">
+                    <div class="formula">$P(A) = \frac{\text{有利事件数}}{\text{总事件数}}$</div>
+                </div>
+                <ul>
+                    <li><strong>排列</strong>: $A(n,m) = \frac{n!}{(n-m)!}$</li>
+                    <li><strong>组合</strong>: $C(n,m) = \frac{n!}{m!(n-m)!}$</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: 随机变量 -->
+        <section id="sec2" class="section">
+            <h2 class="section-title"><span class="icon">📊</span> 二、随机变量分布</h2>
+
+            <div class="card">
+                <h3 class="card-title">2.1 分布函数性质（必背）</h3>
+                <ol>
+                    <li>$0 \le F(x) \le 1$</li>
+                    <li><span class="key-point">单调不减</span>（不是严格增！）</li>
+                    <li><span class="key-point">右连续</span>: $F(x^+) = F(x)$</li>
+                    <li>$P\{X = x\} = F(x) - F(x^-)$</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">2.2 常见分布期望方差（必背核心表）</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>分布</th><th>记号</th><th>期望 $E(X)$</th><th>方差 $D(X)$</th></tr>
+                        <tr><td>0-1分布</td><td>$B(1,p)$</td><td>$p$</td><td>$p(1-p)$</td></tr>
+                        <tr><td>二项分布</td><td>$B(n,p)$</td><td>$np$</td><td>$np(1-p)$</td></tr>
+                        <tr><td>泊松分布</td><td>$P(\lambda)$</td><td>$\lambda$</td><td>$\lambda$</td></tr>
+                        <tr><td>均匀分布</td><td>$U[a,b]$</td><td>$\frac{a+b}{2}$</td><td>$\frac{(b-a)^2}{12}$</td></tr>
+                        <tr><td>指数分布</td><td>$Exp(\lambda)$</td><td>$\frac{1}{\lambda}$</td><td>$\frac{1}{\lambda^2}$</td></tr>
+                        <tr><td>正态分布</td><td>$N(\mu, \sigma^2)$</td><td>$\mu$</td><td>$\sigma^2$</td></tr>
+                        <tr><td>伽马分布</td><td>$\Gamma(\alpha, \beta)$</td><td>$\alpha\beta$</td><td>$\alpha\beta^2$</td></tr>
+                    </table>
+                </div>
+                <div class="warning-box">
+                    指数分布参数注意：<strong>率参数 $\lambda$</strong> 时 $E(X) = \frac{1}{\lambda}$；<strong>尺度参数 $\theta$</strong> 时 $E(X) = \theta$！
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">2.3 随机变量函数分布</h3>
+                <div class="steps">
+                    <div class="step">求分布函数: $F_Y(y) = P\{Y \le y\} = P\{g(X) \le y\}$</div>
+                    <div class="step">求导得密度: $f_Y(y) = \frac{dF_Y(y)}{dy}$</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 二维随机向量 -->
+        <section id="sec3" class="section">
+            <h2 class="section-title"><span class="icon">📈</span> 三、二维随机向量</h2>
+
+            <div class="card">
+                <h3 class="card-title">3.1 联合分布与边缘分布</h3>
+                <div class="grid-2">
+                    <div class="formula-box">
+                        <div class="formula"><strong>边缘分布（离散型）</strong></div>
+                        <p style="text-align:center">$P(X = x) = \sum_y P(X=x, Y=y)$</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>边缘密度（连续型）</strong></div>
+                        <p style="text-align:center">$f_X(x) = \int_{-\infty}^{+\infty} f(x,y) \, dy$</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    独立时，联合密度 = 边缘密度乘积: $f(x,y) = f_X(x) \cdot f_Y(y)$
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">3.2 独立性判定</h3>
+                <div class="grid-2">
+                    <div class="formula-box">
+                        <div class="formula"><strong>离散型</strong></div>
+                        <p>$P(X=x, Y=y) = P(X=x) \cdot P(Y=y)$</p>
+                        <p style="color:var(--accent2)">对所有 $x, y$ 成立</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>连续型</strong></div>
+                        <p>$f(x,y) = f_X(x) \cdot f_Y(y)$</p>
+                        <p style="color:var(--accent2)">对所有 $x, y$ 成立</p>
+                    </div>
+                </div>
+                <div class="warning-box">
+                    只要<strong>有一点不满足</strong>就不独立！
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">3.3 二维正态分布</h3>
+                <div class="formula-box">
+                    <div class="formula">$(X,Y) \sim N(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \rho)$</div>
+                </div>
+                <ul>
+                    <li><span class="key-point">$\rho = 0 \Leftrightarrow X, Y$ 独立</span>（仅二维正态成立！）</li>
+                    <li>$X, Y$ 的线性组合仍服从正态分布</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: 数字特征 -->
+        <section id="sec4" class="section">
+            <h2 class="section-title"><span class="icon">📐</span> 四、数字特征</h2>
+
+            <div class="card">
+                <h3 class="card-title">4.1 期望性质</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>性质</th><th>公式</th><th>条件</th></tr>
+                        <tr><td>常数期望</td><td>$E(c) = c$</td><td>无</td></tr>
+                        <tr><td>线性性</td><td>$E(aX + b) = aE(X) + b$</td><td>无</td></tr>
+                        <tr><td>可加性</td><td>$E(X + Y) = E(X) + E(Y)$</td><td>无条件成立</td></tr>
+                        <tr><td>乘积期望</td><td>$E(XY) = E(X)E(Y)$</td><td>仅当独立或不相关</td></tr>
+                        <tr><td>方差定义</td><td>$E(X^2) = [E(X)]^2 + D(X)$</td><td>方差展开</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">4.2 方差性质</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>性质</th><th>公式</th></tr>
+                        <tr><td>常数方差</td><td>$D(c) = 0$</td></tr>
+                        <tr><td>线性变换</td><td>$D(aX + b) = a^2 D(X)$</td></tr>
+                        <tr><td>和的方差</td><td>$D(X + Y) = D(X) + D(Y) + 2Cov(X,Y)$</td></tr>
+                        <tr><td>差的方差</td><td>$D(X - Y) = D(X) + D(Y) - 2Cov(X,Y)$</td></tr>
+                    </table>
+                </div>
+                <div class="tip-box">
+                    <strong>关键结论</strong>: $D(X+Y) = D(X-Y) \Leftrightarrow Cov(X,Y) = 0 \Leftrightarrow$ 不相关
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">4.3 协方差</h3>
+                <div class="formula-box">
+                    <div class="formula"><strong>定义</strong></div>
+                    <p style="text-align:center">$Cov(X,Y) = E(XY) - E(X)E(Y)$</p>
+                </div>
+                <div class="formula-box">
+                    <div class="formula"><strong>性质</strong></div>
+                    <ul>
+                        <li>$Cov(X, X) = D(X)$</li>
+                        <li>$Cov(X, Y) = Cov(Y, X)$</li>
+                        <li>$Cov(aX, bY) = ab \cdot Cov(X, Y)$</li>
+                        <li>$Cov(X + Y, Z) = Cov(X, Z) + Cov(Y, Z)$</li>
+                        <li><span class="key-point">$X, Y$ 独立 $\Rightarrow Cov(X,Y) = 0$</span></li>
+                    </ul>
+                </div>
+                <div class="warning-box">
+                    协方差和方差中<strong>加常数不影响</strong>，直接删除！
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">4.4 相关系数</h3>
+                <div class="formula-box">
+                    <div class="formula"><strong>定义</strong></div>
+                    <p style="text-align:center">$\rho_{XY} = \frac{Cov(X,Y)}{\sqrt{D(X) \cdot D(Y)}}$</p>
+                </div>
+                <ul>
+                    <li>$-1 \le \rho \le 1$</li>
+                    <li><span class="key-point">$\rho = \pm 1 \Leftrightarrow Y = aX + b$</span> 完全线性相关</li>
+                    <li>$\rho = 0 \Leftrightarrow$ 不相关</li>
+                    <li>$\rho(aX+b, cY+d) = \text{sign}(ac) \cdot \rho(X,Y)$</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">4.5 不相关与独立的关系</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>关系</th><th>结论</th></tr>
+                        <tr><td>不相关定义</td><td>$Cov(X,Y) = 0 \Leftrightarrow E(XY) = E(X)E(Y)$</td></tr>
+                        <tr><td>独立 → 不相关</td><td style="color:var(--success)">✅ 成立</td></tr>
+                        <tr><td>不相关 → 独立</td><td style="color:var(--accent2)">❌ 一般不成立</td></tr>
+                        <tr><td>二维正态特例</td><td style="color:var(--accent)">不相关 ⇔ 独立 ✅</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: 大数定律与中心极限定理 -->
+        <section id="sec5" class="section">
+            <h2 class="section-title"><span class="icon">∞</span> 五、大数定律与中心极限定理</h2>
+
+            <div class="card">
+                <h3 class="card-title">5.1 大数定律</h3>
+                <div class="grid-2">
+                    <div class="formula-box">
+                        <div class="formula"><strong>伯努利大数定律</strong></div>
+                        <p style="text-align:center">频率收敛于概率: $\frac{S_n}{n} \to p$</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>辛钦大数定律</strong></div>
+                        <p style="text-align:center">样本均值收敛于总体期望: $\bar{X} \to E(X)$</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">5.2 棣莫弗-拉普拉斯定理（二项分布中心极限定理）</h3>
+                <div class="formula-box">
+                    <p>设 $X \sim B(n,p)$，当 $n$ 充分大时：</p>
+                    <p style="text-align:center">$X \approx N(np, np(1-p))$</p>
+                    <p style="text-align:center;color:var(--accent)">标准化: $\frac{X - np}{\sqrt{np(1-p)}} \approx N(0,1)$</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">5.3 独立同分布中心极限定理</h3>
+                <div class="formula-box">
+                    <p>$X_1, \ldots, X_n$ 独立同分布，$E(X) = \mu$, $D(X) = \sigma^2$:</p>
+                    <p style="text-align:center">$\sum_{i=1}^n X_i \approx N(n\mu, n\sigma^2)$</p>
+                    <p style="text-align:center">$\bar{X} \approx N(\mu, \frac{\sigma^2}{n})$</p>
+                </div>
+                <div class="tip-box">
+                    <strong>应用识别</strong>: 涉及"和"或"平均"时使用中心极限定理
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: 抽样分布 -->
+        <section id="sec6" class="section">
+            <h2 class="section-title"><span class="icon">🔬</span> 六、抽样分布与统计量</h2>
+
+            <div class="card">
+                <h3 class="card-title">6.1 三大分布（必背核心）</h3>
+                
+                <div class="formula-box" style="margin-bottom:1rem">
+                    <div class="formula" style="color:var(--warning)">χ² 分布（卡方分布）</div>
+                    <p><strong>定义</strong>: $X_1, \ldots, X_n \sim N(0,1)$ 独立同分布</p>
+                    <p style="text-align:center;color:var(--success)">$\sum_{i=1}^n X_i^2 \sim \chi^2(n)$</p>
+                    <p><strong>性质</strong>:</p>
+                    <ul>
+                        <li>$E(\chi^2(n)) = n$, $D(\chi^2(n)) = 2n$</li>
+                        <li><span class="key-point">可加性</span>: $\chi^2(n_1) + \chi^2(n_2) \sim \chi^2(n_1+n_2)$</li>
+                        <li><span class="key-point">自由度 = 平方项数</span></li>
+                    </ul>
+                </div>
+
+                <div class="formula-box" style="margin-bottom:1rem">
+                    <div class="formula" style="color:var(--warning)">t 分布</div>
+                    <p><strong>定义</strong>: $X \sim N(0,1)$, $Y \sim \chi^2(n)$, $X, Y$ 独立</p>
+                    <p style="text-align:center;color:var(--success)">$\frac{X}{\sqrt{Y/n}} \sim t(n)$</p>
+                    <p><strong>性质</strong>:</p>
+                    <ul>
+                        <li>$E(t(n)) = 0$ (n>1)</li>
+                        <li>密度为偶函数，关于0对称</li>
+                        <li>$n \to \infty$ 时趋于 $N(0,1)$</li>
+                    </ul>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula" style="color:var(--warning)">F 分布</div>
+                    <p><strong>定义</strong>: $X \sim \chi^2(n_1)$, $Y \sim \chi^2(n_2)$, $X, Y$ 独立</p>
+                    <p style="text-align:center;color:var(--success)">$\frac{X/n_1}{Y/n_2} \sim F(n_1, n_2)$</p>
+                    <p><strong>性质</strong>:</p>
+                    <ul>
+                        <li><span class="key-point">先分子后分母写自由度</span></li>
+                        <li>$F \sim F(n_1, n_2) \Rightarrow \frac{1}{F} \sim F(n_2, n_1)$</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">6.2 正态总体抽样分布定理（最核心！）</h3>
+                <div class="tip-box">
+                    设 $X_1, \ldots, X_n$ 来自 $N(\mu, \sigma^2)$，样本均值 $\bar{X}$，样本方差 $S^2$:
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>结论</th><th>分布</th></tr>
+                        <tr><td>$\bar{X} \sim N(\mu, \frac{\sigma^2}{n})$</td><td>正态</td></tr>
+                        <tr><td>$\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} \sim N(0,1)$</td><td>标准正态</td></tr>
+                        <tr><td><span class="key-point">$\frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1)$</span></td><td>卡方(n-1)</td></tr>
+                        <tr><td><span class="key-point">$\bar{X}$ 与 $S^2$ 独立</span></td><td>重要结论</td></tr>
+                        <tr><td>$\frac{\sqrt{n}(\bar{X} - \mu)}{S} \sim t(n-1)$</td><td>t分布</td></tr>
+                    </table>
+                </div>
+                <div class="warning-box">
+                    <strong>注意</strong>: 自由度是 $n-1$，不是 $n$！
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">6.3 样本均值方差的数字特征</h3>
+                <div class="formula-box">
+                    <ul>
+                        <li>$E(\bar{X}) = \mu$</li>
+                        <li>$D(\bar{X}) = \frac{\sigma^2}{n}$</li>
+                        <li><span class="key-point">$E(S^2) = \sigma^2$</span>（无偏估计）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: 参数估计 -->
+        <section id="sec7" class="section">
+            <h2 class="section-title"><span class="icon">🎯</span> 七、参数估计</h2>
+
+            <div class="card">
+                <h3 class="card-title">7.1 矩估计法</h3>
+                <div class="steps">
+                    <div class="step">计算总体矩 $E(X)$（含参数 $\theta$）</div>
+                    <div class="step">令 $E(X) = \bar{X}$（样本矩代替总体矩）</div>
+                    <div class="step">解方程得 $\hat{\theta}$</div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula">K阶矩估计：令 $E(X^K) = A_K$（样本K阶矩）</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">7.2 最大似然估计（MLE）</h3>
+                <div class="steps">
+                    <div class="step"><strong>离散型</strong>: 构造似然函数 $L(\theta) = \prod_{i} P(X_i)$</div>
+                    <div class="step"><strong>连续型</strong>: 构造似然函数 $L(\theta) = \prod_{i} f(X_i)$</div>
+                    <div class="step">取对数: $\ln L(\theta)$</div>
+                    <div class="step">求导: $\frac{d \ln L}{d \theta} = 0$</div>
+                    <div class="step">解出 $\hat{\theta}$</div>
+                </div>
+                <div class="warning-box">
+                    小写 $x$ 改大写 $X$ 得估计量（随机变量形式）
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">7.3 无偏性</h3>
+                <div class="formula-box">
+                    <div class="formula"><strong>定义</strong>: $E(\hat{\theta}) = \theta$</div>
+                </div>
+                <div class="tip-box">
+                    <strong>常用结论</strong>:
+                    <ul>
+                        <li>$\bar{X}$ 是 $\mu$ 的无偏估计</li>
+                        <li><span class="key-point">$S^2$ 是 $\sigma^2$ 的无偏估计</span></li>
+                        <li>样本方差 $\frac{1}{n}\sum(X_i - \bar{X})^2$ 是有偏估计</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">7.4 区间估计</h3>
+                <div class="grid-2">
+                    <div class="formula-box">
+                        <div class="formula"><strong>σ 已知，μ 的置信区间</strong></div>
+                        <p style="text-align:center">$\bar{X} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}$</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="formula"><strong>σ 未知，μ 的置信区间</strong></div>
+                        <p style="text-align:center">$\bar{X} \pm t_{\alpha/2}(n-1) \cdot \frac{S}{\sqrt{n}}$</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula"><strong>σ² 的置信区间</strong></div>
+                    <p style="text-align:center">$\left[ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}, \frac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)} \right]$</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: 假设检验 -->
+        <section id="sec8" class="section">
+            <h2 class="section-title"><span class="icon">✅</span> 八、假设检验</h2>
+
+            <div class="card">
+                <h3 class="card-title">8.1 检验步骤</h3>
+                <div class="steps">
+                    <div class="step">建立假设: $H_0$（原假设） vs $H_1$（备择假设）</div>
+                    <div class="step">选择检验统计量</div>
+                    <div class="step">确定拒绝域</div>
+                    <div class="step">计算并判断</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">8.2 正态总体均值检验</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>条件</th><th>检验统计量</th><th>拒绝域（双侧）</th></tr>
+                        <tr><td>$\sigma$ 已知</td><td>$U = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}}$</td><td>$|U| > z_{\alpha/2}$</td></tr>
+                        <tr><td>$\sigma$ 未知</td><td>$T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}}$</td><td>$|T| > t_{\alpha/2}(n-1)$</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: 真题考点 -->
+        <section id="sec9" class="section">
+            <h2 class="section-title"><span class="icon">📝</span> 九、真题高频考点</h2>
+
+            <div class="mnemonic">
+                <div class="mnemonic-title">📌 速记口诀</div>
+                <ul>
+                    <li>矩估计: <strong>"总体矩=样本矩"</strong></li>
+                    <li>MLE: <strong>"似然→对数→求导→解方程"</strong></li>
+                    <li>独立性: <strong>"联合=边缘乘积"</strong></li>
+                    <li>相关性: <strong>"协方差=乘积期望-期望乘积"</strong></li>
+                    <li>中心极限定理: <strong>"n大正态化"</strong></li>
+                    <li>χ²自由度: <strong>"平方项数"</strong></li>
+                    <li>正态抽样: <strong>"X̄独立S²，(n-1)S²/σ²~χ²(n-1)"</strong></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">易错点总结</h3>
+                <div class="warning-box">
+                    <ol>
+                        <li>❌ 分布函数是<strong>单调不减</strong>，不是严格增</li>
+                        <li>❌ <strong>互不相容≠独立</strong>（互斥时更不独立）</li>
+                        <li>❌ <strong>不相关推不出独立</strong>（除非二维正态）</li>
+                        <li>❌ $E(XY) = E(X)E(Y)$ 仅当独立或不相关成立</li>
+                        <li>❌ $D(X) = E(X^2) - [E(X)]^2$，不是 $[E(X)]^2$</li>
+                        <li>❌ 样本方差 $S^2$ 自由度是 <strong>n-1</strong>，不是 n</li>
+                        <li>❌ χ² 分布自由度 = <strong>平方项数</strong>（不是样本数）</li>
+                        <li>❌ 协方差和方差中<strong>加常数不影响</strong>，要删除</li>
+                        <li>❌ 指数分布参数 $\lambda$ 和 $\theta$ 要注意</li>
+                        <li>❌ MLE 求导后要<strong>验证极值点</strong></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">必背常数</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <tr><th>Φ 值</th><th>对应概率</th></tr>
+                        <tr><td>$\Phi(0) = 0.5$</td><td>50%</td></tr>
+                        <tr><td>$\Phi(1) = 0.8413$</td><td>84.13%</td></tr>
+                        <tr><td>$\Phi(1.28) = 0.9$</td><td>90%</td></tr>
+                        <tr><td>$\Phi(1.645) = 0.95$</td><td>95%</td></tr>
+                        <tr><td><span class="key-point">$\Phi(2) = 0.9772$</span></td><td>97.72%</td></tr>
+                        <tr><td>$\Phi(3) = 0.9987$</td><td>99.87%</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">2021-2022 考点</h3>
+                <ul>
+                    <li>条件概率、容斥原理</li>
+                    <li>古典概型（排列组合）</li>
+                    <li>分布函数右连续</li>
+                    <li>随机变量函数分布</li>
+                    <li>联合密度独立性</li>
+                    <li>二维正态 ρ=0 独立性</li>
+                    <li>χ²(n-1) 抽样分布</li>
+                    <li>中心极限定理（二项近似正态）</li>
+                    <li>矩估计与 MLE</li>
+                    <li>指数分布 min 的期望</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">2022-2023 考点</h3>
+                <ul>
+                    <li>古典概型、二项分布计算</li>
+                    <li>独立同分布联合概率</li>
+                    <li>条件概率、全概率公式</li>
+                    <li>相关系数线性变换</li>
+                    <li>χ²(n) 分布可加性</li>
+                    <li>分布函数性质、min/max 分布</li>
+                    <li>不相关判定</li>
+                    <li>独立正态样本均值差</li>
+                    <li>容斥原理三事件</li>
+                    <li>超几何分布</li>
+                    <li>边缘密度、独立性判定</li>
+                    <li>中心极限定理应用</li>
+                    <li>矩估计与 MLE</li>
+                    <li>分段均匀分布</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">2023-2024 考点</h3>
+                <ul>
+                    <li>独立事件概率</li>
+                    <li>条件概率计算</li>
+                    <li>分布函数应用</li>
+                    <li>泊松分布</li>
+                    <li>联合密度边缘密度</li>
+                    <li>正态标准化</li>
+                    <li>期望方差计算</li>
+                    <li>协方差、相关系数</li>
+                    <li>max 分布</li>
+                    <li>独立性判定</li>
+                    <li>中心极限定理</li>
+                    <li>χ²、t 分布</li>
+                    <li>矩估计 MLE</li>
+                    <li>区间估计</li>
+                    <li>假设检验</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>📚 概率论与数理统计 考前速记 | 南京师范大学真题整理</p>
+        <p style="color:var(--accent)">祝考试顺利！</p>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+        const backToTop = document.getElementById('backToTop');
+        const navLinks = nav.querySelectorAll('a');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                nav.classList.remove('active');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
