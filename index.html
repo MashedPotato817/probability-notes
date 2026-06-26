@@ -1130,6 +1130,7 @@
     <footer class="footer">
         <p>📚 概率论与数理统计 考前速记 | 南京师范大学真题整理</p>
         <p style="color:var(--accent)">祝考试顺利！</p>
+        <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">最后更新：<span id="lastModified"></span></p>
     </footer>
 
     <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
@@ -1165,6 +1166,14 @@
                 top: 0,
                 behavior: 'smooth'
             });
+        });
+
+        document.getElementById('lastModified').textContent = new Date(document.lastModified).toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
         });
     </script>
 </body>
