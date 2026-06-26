@@ -162,6 +162,7 @@
         /* Section */
         .section {
             margin-bottom: 2rem;
+            scroll-margin-top: 8rem;
         }
 
         .section-title {
@@ -479,6 +480,10 @@
                 display: flex;
             }
 
+            .section {
+                scroll-margin-top: 6rem;
+            }
+
             .nav {
                 position: fixed;
                 top: 0;
@@ -543,19 +548,18 @@
             }
 
             .table-wrapper {
-                overflow-x: hidden;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             table {
                 font-size: 0.8rem;
-                table-layout: fixed;
+                white-space: nowrap;
             }
 
             th, td {
-                padding: 0.4rem 0.3rem;
-                word-break: break-all;
-                overflow-wrap: break-word;
-                white-space: normal;
+                padding: 0.4rem 0.5rem;
+                white-space: nowrap;
             }
 
             .step {
@@ -1175,7 +1179,7 @@
 
     <footer class="footer">
         <p>📚 概率论与数理统计 考前速记 | 南京师范大学真题整理</p>
-<p class="text-accent">祝考试顺利！</p>
+        <p class="text-accent">祝考试顺利！</p>
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">Composed by MashedPotato</p>
         <p style="font-size: 0.8rem; opacity: 0.6;">最后更新：<span id="lastModified"></span></p>
     </footer>
