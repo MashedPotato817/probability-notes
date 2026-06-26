@@ -10,7 +10,7 @@
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$$'], ['\\[', '\\]']]
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
             svg: {
                 fontCache: 'global'
@@ -18,10 +18,7 @@
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
-    
-    <!-- KaTeX CSS (faster alternative) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    
+
     <style>
         :root {
             --bg: #1a1a2e;
@@ -47,6 +44,7 @@
         html {
             font-size: 16px;
             -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -100,6 +98,7 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
+            will-change: transform;
         }
 
         .menu-toggle span {
@@ -187,6 +186,7 @@
             padding: 1.5rem;
             margin-bottom: 1rem;
             transition: transform 0.3s, box-shadow 0.3s;
+            will-change: transform;
         }
 
         .card:hover {
@@ -357,7 +357,7 @@
         /* Grid */
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1rem;
         }
 
@@ -365,6 +365,31 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
+        }
+
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-danger {
+            color: var(--accent2);
+        }
+
+        .text-success {
+            color: var(--success);
+        }
+
+        .text-warning {
+            color: var(--warning);
+        }
+
+        .mb-1 {
+            margin-bottom: 1rem;
         }
 
         /* Footer */
@@ -397,7 +422,9 @@
 
         /* Back to Top Button */
         .back-to-top {
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: fixed;
             bottom: 2rem;
             right: 1rem;
@@ -410,10 +437,16 @@
             font-size: 1.2rem;
             cursor: pointer;
             z-index: 150;
-            align-items: center;
-            justify-content: center;
             box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-            transition: all 0.3s;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            will-change: opacity, transform;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .back-to-top:hover, .back-to-top:active {
@@ -518,11 +551,6 @@
                 font-size: 0.9rem;
             }
 
-            .back-to-top {
-                display: flex;
-            }
-        }
-
         @media (max-width: 480px) {
             html {
                 font-size: 14px;
@@ -606,17 +634,17 @@
                 <div class="grid-2">
                     <div class="formula-box">
                         <div class="formula"><strong>对立事件</strong></div>
-                        <p style="text-align:center">$A \cup B = \Omega$</p>
-                        <p style="text-align:center">$AB = \emptyset$</p>
-                        <p style="text-align:center">$P(A) = 1 - P(B)$</p>
+                        <p class="text-center">$A \cup B = \Omega$</p>
+                        <p class="text-center">$AB = \emptyset$</p>
+                        <p class="text-center">$P(A) = 1 - P(B)$</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>互不相容</strong></div>
-                        <p style="text-align:center">$AB = \emptyset \Rightarrow P(AB) = 0$</p>
+                        <p class="text-center">$AB = \emptyset \Rightarrow P(AB) = 0$</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>独立</strong></div>
-                        <p style="text-align:center">$P(AB) = P(A) \cdot P(B)$</p>
+                        <p class="text-center">$P(AB) = P(A) \cdot P(B)$</p>
                     </div>
                 </div>
                 <div class="warning-box">
@@ -687,11 +715,11 @@
                 <div class="grid-2">
                     <div class="formula-box">
                         <div class="formula"><strong>边缘分布（离散型）</strong></div>
-                        <p style="text-align:center">$P(X = x) = \sum_y P(X=x, Y=y)$</p>
+                        <p class="text-center">$P(X = x) = \sum_y P(X=x, Y=y)$</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>边缘密度（连续型）</strong></div>
-                        <p style="text-align:center">$f_X(x) = \int_{-\infty}^{+\infty} f(x,y) \, dy$</p>
+                        <p class="text-center">$f_X(x) = \int_{-\infty}^{+\infty} f(x,y) \, dy$</p>
                     </div>
                 </div>
                 <div class="tip-box">
@@ -705,12 +733,12 @@
                     <div class="formula-box">
                         <div class="formula"><strong>离散型</strong></div>
                         <p>$P(X=x, Y=y) = P(X=x) \cdot P(Y=y)$</p>
-                        <p style="color:var(--accent2)">对所有 $x, y$ 成立</p>
+                        <p class="text-danger">对所有 $x, y$ 成立</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>连续型</strong></div>
                         <p>$f(x,y) = f_X(x) \cdot f_Y(y)$</p>
-                        <p style="color:var(--accent2)">对所有 $x, y$ 成立</p>
+                        <p class="text-danger">对所有 $x, y$ 成立</p>
                     </div>
                 </div>
                 <div class="warning-box">
@@ -768,7 +796,7 @@
                 <h3 class="card-title">4.3 协方差</h3>
                 <div class="formula-box">
                     <div class="formula"><strong>定义</strong></div>
-                    <p style="text-align:center">$Cov(X,Y) = E(XY) - E(X)E(Y)$</p>
+                    <p class="text-center">$Cov(X,Y) = E(XY) - E(X)E(Y)$</p>
                 </div>
                 <div class="formula-box">
                     <div class="formula"><strong>性质</strong></div>
@@ -789,7 +817,7 @@
                 <h3 class="card-title">4.4 相关系数</h3>
                 <div class="formula-box">
                     <div class="formula"><strong>定义</strong></div>
-                    <p style="text-align:center">$\rho_{XY} = \frac{Cov(X,Y)}{\sqrt{D(X) \cdot D(Y)}}$</p>
+                    <p class="text-center">$\rho_{XY} = \frac{Cov(X,Y)}{\sqrt{D(X) \cdot D(Y)}}$</p>
                 </div>
                 <ul>
                     <li>$-1 \le \rho \le 1$</li>
@@ -805,9 +833,9 @@
                     <table>
                         <tr><th>关系</th><th>结论</th></tr>
                         <tr><td>不相关定义</td><td>$Cov(X,Y) = 0 \Leftrightarrow E(XY) = E(X)E(Y)$</td></tr>
-                        <tr><td>独立 → 不相关</td><td style="color:var(--success)">✅ 成立</td></tr>
-                        <tr><td>不相关 → 独立</td><td style="color:var(--accent2)">❌ 一般不成立</td></tr>
-                        <tr><td>二维正态特例</td><td style="color:var(--accent)">不相关 ⇔ 独立 ✅</td></tr>
+                        <tr><td>独立 → 不相关</td><td class="text-success">✅ 成立</td></tr>
+                        <tr><td>不相关 → 独立</td><td class="text-danger">❌ 一般不成立</td></tr>
+                        <tr><td>二维正态特例</td><td class="text-accent">不相关 ⇔ 独立 ✅</td></tr>
                     </table>
                 </div>
             </div>
@@ -822,11 +850,11 @@
                 <div class="grid-2">
                     <div class="formula-box">
                         <div class="formula"><strong>伯努利大数定律</strong></div>
-                        <p style="text-align:center">频率收敛于概率: $\frac{S_n}{n} \to p$</p>
+                        <p class="text-center">频率收敛于概率: $\frac{S_n}{n} \to p$</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>辛钦大数定律</strong></div>
-                        <p style="text-align:center">样本均值收敛于总体期望: $\bar{X} \to E(X)$</p>
+                        <p class="text-center">样本均值收敛于总体期望: $\bar{X} \to E(X)$</p>
                     </div>
                 </div>
             </div>
@@ -835,8 +863,8 @@
                 <h3 class="card-title">5.2 棣莫弗-拉普拉斯定理（二项分布中心极限定理）</h3>
                 <div class="formula-box">
                     <p>设 $X \sim B(n,p)$，当 $n$ 充分大时：</p>
-                    <p style="text-align:center">$X \approx N(np, np(1-p))$</p>
-                    <p style="text-align:center;color:var(--accent)">标准化: $\frac{X - np}{\sqrt{np(1-p)}} \approx N(0,1)$</p>
+                    <p class="text-center">$X \approx N(np, np(1-p))$</p>
+                    <p class="text-center text-accent">标准化: $\frac{X - np}{\sqrt{np(1-p)}} \approx N(0,1)$</p>
                 </div>
             </div>
 
@@ -844,8 +872,8 @@
                 <h3 class="card-title">5.3 独立同分布中心极限定理</h3>
                 <div class="formula-box">
                     <p>$X_1, \ldots, X_n$ 独立同分布，$E(X) = \mu$, $D(X) = \sigma^2$:</p>
-                    <p style="text-align:center">$\sum_{i=1}^n X_i \approx N(n\mu, n\sigma^2)$</p>
-                    <p style="text-align:center">$\bar{X} \approx N(\mu, \frac{\sigma^2}{n})$</p>
+                    <p class="text-center">$\sum_{i=1}^n X_i \approx N(n\mu, n\sigma^2)$</p>
+                    <p class="text-center">$\bar{X} \approx N(\mu, \frac{\sigma^2}{n})$</p>
                 </div>
                 <div class="tip-box">
                     <strong>应用识别</strong>: 涉及"和"或"平均"时使用中心极限定理
@@ -860,10 +888,10 @@
             <div class="card">
                 <h3 class="card-title">6.1 三大分布（必背核心）</h3>
                 
-                <div class="formula-box" style="margin-bottom:1rem">
-                    <div class="formula" style="color:var(--warning)">χ² 分布（卡方分布）</div>
+                <div class="formula-box mb-1">
+                    <div class="formula text-warning">χ² 分布（卡方分布）</div>
                     <p><strong>定义</strong>: $X_1, \ldots, X_n \sim N(0,1)$ 独立同分布</p>
-                    <p style="text-align:center;color:var(--success)">$\sum_{i=1}^n X_i^2 \sim \chi^2(n)$</p>
+                    <p class="text-center text-success">$\sum_{i=1}^n X_i^2 \sim \chi^2(n)$</p>
                     <p><strong>性质</strong>:</p>
                     <ul>
                         <li>$E(\chi^2(n)) = n$, $D(\chi^2(n)) = 2n$</li>
@@ -872,10 +900,10 @@
                     </ul>
                 </div>
 
-                <div class="formula-box" style="margin-bottom:1rem">
-                    <div class="formula" style="color:var(--warning)">t 分布</div>
+                <div class="formula-box mb-1">
+                    <div class="formula text-warning">t 分布</div>
                     <p><strong>定义</strong>: $X \sim N(0,1)$, $Y \sim \chi^2(n)$, $X, Y$ 独立</p>
-                    <p style="text-align:center;color:var(--success)">$\frac{X}{\sqrt{Y/n}} \sim t(n)$</p>
+                    <p class="text-center text-success">$\frac{X}{\sqrt{Y/n}} \sim t(n)$</p>
                     <p><strong>性质</strong>:</p>
                     <ul>
                         <li>$E(t(n)) = 0$ (n>1)</li>
@@ -885,9 +913,9 @@
                 </div>
 
                 <div class="formula-box">
-                    <div class="formula" style="color:var(--warning)">F 分布</div>
+                    <div class="formula text-warning">F 分布</div>
                     <p><strong>定义</strong>: $X \sim \chi^2(n_1)$, $Y \sim \chi^2(n_2)$, $X, Y$ 独立</p>
-                    <p style="text-align:center;color:var(--success)">$\frac{X/n_1}{Y/n_2} \sim F(n_1, n_2)$</p>
+                    <p class="text-center text-success">$\frac{X/n_1}{Y/n_2} \sim F(n_1, n_2)$</p>
                     <p><strong>性质</strong>:</p>
                     <ul>
                         <li><span class="key-point">先分子后分母写自由度</span></li>
@@ -978,16 +1006,16 @@
                 <div class="grid-2">
                     <div class="formula-box">
                         <div class="formula"><strong>σ 已知，μ 的置信区间</strong></div>
-                        <p style="text-align:center">$\bar{X} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}$</p>
+                        <p class="text-center">$\bar{X} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}$</p>
                     </div>
                     <div class="formula-box">
                         <div class="formula"><strong>σ 未知，μ 的置信区间</strong></div>
-                        <p style="text-align:center">$\bar{X} \pm t_{\alpha/2}(n-1) \cdot \frac{S}{\sqrt{n}}$</p>
+                        <p class="text-center">$\bar{X} \pm t_{\alpha/2}(n-1) \cdot \frac{S}{\sqrt{n}}$</p>
                     </div>
                 </div>
                 <div class="formula-box">
                     <div class="formula"><strong>σ² 的置信区间</strong></div>
-                    <p style="text-align:center">$\left[ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}, \frac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)} \right]$</p>
+                    <p class="text-center">$\left[ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}, \frac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)} \right]$</p>
                 </div>
             </div>
         </section>
@@ -1129,7 +1157,7 @@
 
     <footer class="footer">
         <p>📚 概率论与数理统计 考前速记 | 南京师范大学真题整理</p>
-        <p style="color:var(--accent)">祝考试顺利！</p>
+        <p class="text-accent">祝考试顺利！</p>
     </footer>
 
     <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
@@ -1152,19 +1180,19 @@
             });
         });
 
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTop.style.display = 'flex';
-            } else {
-                backToTop.style.display = 'none';
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    backToTop.classList.toggle('visible', window.scrollY > 300);
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
 
         backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
