@@ -55,6 +55,8 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         /* Header */
@@ -482,17 +484,19 @@
                 top: 0;
                 left: 0;
                 right: 0;
+                bottom: 0;
                 flex-direction: column;
                 padding: calc(var(--touch-target) + 1rem) 1rem 1rem;
-                background: rgba(22, 33, 62, 0.98);
-                backdrop-filter: blur(10px);
+                background: #16213e;
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s ease-out;
+                z-index: 200;
             }
 
             .nav.active {
-                max-height: 80vh;
+                max-height: 100vh;
+                overflow-y: auto;
             }
 
             .nav a {
@@ -520,24 +524,38 @@
             }
 
             .formula-box {
-                padding: 0.75rem;
+                padding: 0.5rem;
+                overflow-x: hidden;
+                width: 100%;
             }
 
             .formula-box .formula {
-                font-size: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .formula-box p {
+                font-size: 0.85rem;
+                overflow-wrap: break-word;
             }
 
             .grid-2, .grid-3 {
                 grid-template-columns: 1fr;
             }
 
+            .table-wrapper {
+                overflow-x: hidden;
+            }
+
             table {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
+                table-layout: fixed;
             }
 
             th, td {
-                padding: 0.5rem 0.4rem;
-                word-break: break-word;
+                padding: 0.4rem 0.3rem;
+                word-break: break-all;
+                overflow-wrap: break-word;
+                white-space: normal;
             }
 
             .step {
@@ -1157,7 +1175,9 @@
 
     <footer class="footer">
         <p>📚 概率论与数理统计 考前速记 | 南京师范大学真题整理</p>
-        <p class="text-accent">祝考试顺利！</p>
+<p class="text-accent">祝考试顺利！</p>
+        <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">Composed by MashedPotato</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">最后更新：<span id="lastModified"></span></p>
     </footer>
 
     <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
@@ -1193,6 +1213,14 @@
 
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.getElementById('lastModified').textContent = new Date(document.lastModified).toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
         });
     </script>
 </body>
